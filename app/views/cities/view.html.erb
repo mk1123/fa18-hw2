@@ -1,0 +1,70 @@
+<% if (not @city.nil?) && (@cities_list.include? @city.to_sym) %>
+  <% city = @cities_dict[@city.to_sym] %>
+    <h1>City: <%= city.name %></h1>
+    <p>-----------------------------------------------</p>
+    <p>Popular landmark: <%= city.landmark %></p>
+    <p>Population: <%= city.population %></p>
+    <p>Weather (if available):</p>
+    <% if city.weather %>
+    <ul>
+      <li>Temperature: <%= ((9 / 5) * (city.weather[:temperature] - 237) + 32).round(0) %>ºF</li>
+      <li>Weather conditions: <%= city.weather[:description] %></li>
+    </ul>
+    <br>
+    <form action=<% "/cities/update?city="+city.name %>>
+      <input type="submit" value="Update City!" />
+    </form>
+    <hr>
+    <p>Wanna make more cities? You can do that here!</p>
+    <%= form_with local:true, method: "post", url: "/cities/create" do |f| %>
+      City Name: <%= f.text_field :name%> <br>
+      Population: <%= f.text_field :population%> <br>
+      Most Popular Landmark: <%= f.text_field :landmark%> <br>
+      <%= f.submit %>
+    <% end %>
+    <% end %>
+<% elsif not @cities_dict.empty? %>
+  <h1>All cities</h1>
+  <% @cities_dict.each_value do |city| %>
+    <div style="border-style: groove">
+    <p>City: <%= city.name %></p>
+    <p>-----------------------------------------------</p>
+    <p>Popular landmark: <%= city.landmark %></p>
+    <p>Population: <%= city.population %></p>
+    <p>Weather (if available):</p>
+    <% if city.weather %>
+    <ul>
+      <li>Temperature: <%= ((9 / 5) * (city.weather[:temperature] - 237) + 32).round(0) %>ºF</li>
+      <li>Weather conditions: <%= city.weather[:description] %></li>
+    </ul>
+    <% end %>
+
+    <%= form_with local:true, method: "get", url: "/cities/update" do |f| %>
+      <%= f.hidden_field :city, value: city.name%>
+      <%= f.submit "Update City!"%>
+    <% end %>
+
+    <br>
+  </div>
+
+    <br>
+<% end %>
+    <hr>
+    <p>Wanna make more cities? You can do that here!</p>
+
+     <form action="/cities/new">
+    <input type="submit" value="New City!" />
+    </form>
+
+    <br>
+    
+<% else %>
+  <p>
+    You really gotta create some cities! Thankfully, you can do that here!
+  </p>
+
+ <form action="/cities/new">
+    <input type="submit" value="New City!" />
+</form>
+  
+<% end %>

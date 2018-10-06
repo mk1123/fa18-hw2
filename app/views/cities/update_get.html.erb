@@ -1,0 +1,13 @@
+<% if not @city %>
+<p>Need a parameter for update, buddy!</p>
+
+<% else %>
+  <h1>Update <%= @city %>:</h1>
+
+  <%= form_with local:true, method: "post" do |f| %>
+    <%= f.hidden_field :city, value: @city %>
+    Change population: <%= f.number_field :population%> <br>
+    Change landmark: <%= f.text_field :landmark%> <br>
+    <%= f.submit %>
+  <% end %>
+<% end %>
