@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Ruby on Rails
 
 This is an example project of a [Ruby on Rails](http://rubyonrails.org) web application that runs in Glitch.com.
